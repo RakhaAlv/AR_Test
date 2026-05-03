@@ -10,29 +10,40 @@
   </head>
   <body style="margin: 0; overflow: hidden;">
     
-    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
-      
-      <!-- Preload Aset 3D dari folder lokal -->
-      <a-assets>
-        <a-asset-item id="model-padi" src="assets/Padi.glb"></a-asset-item>
-      </a-assets>
+<!-- Inisialisasi Scene AR dengan parameter yang dioptimalkan -->
+<a-scene 
+  embedded 
+  arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+  renderer="antialias: true; colorManagement: true;"> <!-- Membuat warna dan tekstur lebih tajam -->
 
-      <!-- Menggunakan Marker 'Hiro' untuk mendeteksi posisi -->
-      <a-marker preset="hiro">
-        
-        <!-- Menampilkan Model 3D Padi -->
-        <!-- Atribut 'animation-mixer' akan menjalankan animasi jika ada di dalam file .glb -->
-        <a-entity 
-            gltf-model="#model-padi" 
-            scale="0.5 0.5 0.5" 
-            position="0 0 0" 
-            animation-mixer>
-        </a-entity>
-        
-      </a-marker>
-      
-      <a-entity camera></a-entity>
-    </a-scene>
+  <!-- Load aset -->
+  <a-assets>
+    <a-asset-item id="model-padi" src="assets/padi.glb"></a-asset-item>
+  </a-assets>
+
+  <!-- Pengaturan Pencahayaan Buatan (Lighting) -->
+  <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
+  <a-light type="directional" color="#ffffff" intensity="0.8" position="-1 2 1"></a-light>
+
+  <a-marker preset="hiro">
+    
+    <!-- MENGATUR SKALA & POSISI OBJEK 3D -->
+    <!-- 
+      - scale: Ubah angka ini (x y z) jadi lebih kecil jika objek masih terlalu raksasa (contoh: "0.1 0.1 0.1")
+      - position: Geser posisi objek (x y z). "0 0 0" berarti tepat di tengah marker.
+    -->
+    <a-entity 
+        gltf-model="#model-padi" 
+        scale="0.05 0.05 0.05" 
+        position="0 0 0" 
+        rotation="0 0 0"
+        animation-mixer>
+    </a-entity>
+
+  </a-marker>
+  
+  <a-entity camera></a-entity>
+</a-scene>
     
   </body>
 </html>
