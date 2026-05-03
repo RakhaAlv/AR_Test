@@ -1,49 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
   <head>
-    <title>Simulasi Nanem Padi Glawan</title>
-    <!-- Load Library Utama A-Frame & AR.js -->
+    <meta charset="UTF-8">
+    <title>WebAR - Glawan Tourism AR</title>
+    <!-- Load Library Utama A-Frame & AR.js via CDN untuk efisiensi server -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <!-- Load Ekstensi untuk Animasi 3D -->
+    <!-- Load Ekstensi untuk menjalankan animasi bawaan dari Blender -->
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     
-<!-- Inisialisasi Scene AR dengan parameter yang dioptimalkan -->
-<a-scene 
-  embedded 
-  arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-  renderer="antialias: true; colorManagement: true;"> <!-- Membuat warna dan tekstur lebih tajam -->
+    <!-- Scene AR dengan optimasi warna (colorManagement) agar tidak pucat -->
+    <a-scene 
+      embedded 
+      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+      renderer="colorManagement: true; antialias: true;">
+      
+      <!-- Manajemen Aset (Pre-load file 3D) -->
+      <a-assets>
+        <!-- Pastikan path src ini sesuai dengan lokasi file .glb kamu -->
+        <a-asset-item id="model-padi" src="assets/padi.glb"></a-asset-item>
+      </a-assets>
 
-  <!-- Load aset -->
-  <a-assets>
-    <a-asset-item id="model-padi" src="assets/padi.glb"></a-asset-item>
-  </a-assets>
+      <!-- Optimasi Pencahayaan Buatan agar tekstur 3D jelas dan tidak silau -->
+      <a-light type="ambient" color="#ffffff" intensity="0.7"></a-light>
+      <a-light type="directional" color="#ffffff" intensity="0.6" position="-1 2 1"></a-light>
 
-  <!-- Pengaturan Pencahayaan Buatan (Lighting) -->
-  <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
-  <a-light type="directional" color="#ffffff" intensity="0.8" position="-1 2 1"></a-light>
-
-  <a-marker preset="hiro">
-    
-    <!-- MENGATUR SKALA & POSISI OBJEK 3D -->
-    <!-- 
-      - scale: Ubah angka ini (x y z) jadi lebih kecil jika objek masih terlalu raksasa (contoh: "0.1 0.1 0.1")
-      - position: Geser posisi objek (x y z). "0 0 0" berarti tepat di tengah marker.
-    -->
-    <a-entity 
-        gltf-model="#model-padi" 
-        scale="0.05 0.05 0.05" 
-        position="0 0 0" 
-        rotation="0 0 0"
-        animation-mixer>
-    </a-entity>
-
-  </a-marker>
-  
-  <a-entity camera></a-entity>
-</a-scene>
+      <!-- Menggunakan Marker standar 'Hiro' -->
+      <a-marker preset="hiro">
+        
+        <!-- 
+          Menampilkan Model 3D. 
+          Skala diubah menjadi sangat kecil (0.005) sebagai solusi untuk model raksasa.
+          Jika nanti hilang/kekecilan, ubah perlahan menjadi 0.01, 0.02, dst.
+        -->
+        <a-entity 
+            gltf-model="#model-padi" 
+            scale="0.005 0.005 0.005" 
+            position="0 0 0" 
+            rotation="0 0 0"
+            animation-mixer>
+        </a-entity>
+        
+      </a-marker>
+      
+      <!-- Kamera AR yang dikendalikan oleh sensor HP -->
+      <a-entity camera></a-entity>
+    </a-scene>
     
   </body>
 </html>
