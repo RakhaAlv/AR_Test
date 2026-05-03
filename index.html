@@ -32,11 +32,22 @@
     <div class="header-ui">Status: Cek Kamera AR...</div>
 
     <!-- Scene AR -->
-    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+<!-- Scene AR -->
+    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" renderer="colorManagement: true;">
       
+      <!-- LANGKAH A: Daftarkan (Preload) file .glb di sini -->
+      <a-assets timeout="10000"> <!-- Tambahkan timeout 10 detik agar tidak blank selamanya jika lambat -->
+        <a-asset-item id="model-padi" src="assets/Padi.glb"></a-asset-item>
+      </a-assets>
+
       <a-marker preset="hiro">
-        <!-- Kita kembalikan ke kubus merah untuk memastikan kamera dan tracking jalan -->
-        <a-box position="0 0.5 0" material="color: red;"></a-box>
+        <!-- LANGKAH B: Panggil ID modelnya. Kita mulai dari skala SANGAT KECIL (0.01) -->
+        <a-entity 
+            gltf-model="#model-padi" 
+            scale="0.01 0.01 0.01" 
+            position="0 0 0" 
+            rotation="0 0 0">
+        </a-entity>
       </a-marker>
       
       <a-entity camera></a-entity>
