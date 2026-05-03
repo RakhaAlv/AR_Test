@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Test WebAR Glawan</title>
-    <!-- Load Library A-Frame dan AR.js -->
+    <title>Simulasi Nanem Padi Glawan</title>
+    <!-- Load Library Utama A-Frame & AR.js -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <!-- Load Ekstensi untuk Animasi 3D -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     
-    <!-- Inisialisasi Scene AR -->
     <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
       
-      <!-- Menggunakan Marker Standar 'Hiro' -->
+      <!-- Preload Aset 3D dari folder lokal -->
+      <a-assets>
+        <a-asset-item id="model-padi" src="assets/Padi.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- Menggunakan Marker 'Hiro' untuk mendeteksi posisi -->
       <a-marker preset="hiro">
         
-        <!-- Objek Uji Coba: Kubus Biru Berputar -->
-        <a-box 
-            position="0 0.5 0" 
-            material="color: #000080;" 
-            animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
-        </a-box>
+        <!-- Menampilkan Model 3D Padi -->
+        <!-- Atribut 'animation-mixer' akan menjalankan animasi jika ada di dalam file .glb -->
+        <a-entity 
+            gltf-model="#model-padi" 
+            scale="0.5 0.5 0.5" 
+            position="0 0 0" 
+            animation-mixer>
+        </a-entity>
         
       </a-marker>
       
-      <!-- Kamera -->
       <a-entity camera></a-entity>
     </a-scene>
     
