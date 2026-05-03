@@ -2,50 +2,43 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8">
-    <title>WebAR - Glawan Tourism AR</title>
-    <!-- Load Library Utama A-Frame & AR.js via CDN untuk efisiensi server -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WebAR - Debugging Kamera</title>
+    <!-- Kita gunakan versi CDN AR.js yang lebih stabil (3.3.2) -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <!-- Load Ekstensi untuk menjalankan animasi bawaan dari Blender -->
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.3.2/aframe/build/aframe-ar.js"></script>
     
-    <!-- Scene AR dengan optimasi warna (colorManagement) agar tidak pucat -->
-    <a-scene 
-      embedded 
-      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-      renderer="colorManagement: true; antialias: true;">
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #000000; /* Jika kamera gagal, layar akan jadi hitam, bukan putih */
+      }
+      .header-ui {
+        position: absolute;
+        top: 0; left: 0; width: 100%;
+        background-color: rgba(30, 30, 30, 0.9);
+        color: white;
+        text-align: center;
+        padding: 15px 0;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        z-index: 9999;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div class="header-ui">Status: Cek Kamera AR...</div>
+
+    <!-- Scene AR -->
+    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
       
-      <!-- Manajemen Aset (Pre-load file 3D) -->
-      <a-assets>
-        <!-- Pastikan path src ini sesuai dengan lokasi file .glb kamu -->
-        <a-asset-item id="model-padi" src="assets/padi.glb"></a-asset-item>
-      </a-assets>
-
-      <!-- Optimasi Pencahayaan Buatan agar tekstur 3D jelas dan tidak silau -->
-      <a-light type="ambient" color="#ffffff" intensity="0.7"></a-light>
-      <a-light type="directional" color="#ffffff" intensity="0.6" position="-1 2 1"></a-light>
-
-      <!-- Menggunakan Marker standar 'Hiro' -->
       <a-marker preset="hiro">
-        
-        <!-- 
-          Menampilkan Model 3D. 
-          Skala diubah menjadi sangat kecil (0.005) sebagai solusi untuk model raksasa.
-          Jika nanti hilang/kekecilan, ubah perlahan menjadi 0.01, 0.02, dst.
-        -->
-        <a-entity 
-            gltf-model="#model-padi" 
-            scale="0.005 0.005 0.005" 
-            position="0 0 0" 
-            rotation="0 0 0"
-            animation-mixer>
-        </a-entity>
-        
+        <!-- Kita kembalikan ke kubus merah untuk memastikan kamera dan tracking jalan -->
+        <a-box position="0 0.5 0" material="color: red;"></a-box>
       </a-marker>
       
-      <!-- Kamera AR yang dikendalikan oleh sensor HP -->
       <a-entity camera></a-entity>
     </a-scene>
     
